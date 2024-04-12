@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getUnresolvedBugs, loadBugs } from "../store/bugs"
+import { getUnresolvedBugs, loadBugs, resolveBug } from "../store/bugs"
 
 export default function BugsList() {
     const dispatch = useDispatch()
@@ -8,10 +8,17 @@ export default function BugsList() {
     React.useEffect(() => {
         dispatch(loadBugs())
     }, [])
+
+    function handleClick(id) {
+        dispatch(resolveBug(id))
+    }
     return (
         <ul>
             {bugs.map((bug) => (
-            <li key={bug.id}>{bug.description}</li>
+            <div key={bug.id}>
+                <li >{bug.description}</li>
+                <button onClick={() => handleClick(bug.id)}>Resolve</button>
+            </div>
             ))}
         </ul>
     )
